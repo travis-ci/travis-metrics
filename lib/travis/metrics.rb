@@ -33,9 +33,10 @@ module Travis
       attr_reader :reporter
 
       def setup(config, logger)
-        adapter   = config[:reporter]
-        config    = config[adapter.to_sym] || {} if adapter
-        @reporter = Reporter.send(adapter, config, logger)
+        if adapter = config[:reporter]
+          config = config[adapter.to_sym] || {}
+          @reporter = Reporter.send(adapter, config, logger)
+        end
         reporter ? reporter.start : logger.info('No metrics reporter configured.')
         self
       rescue Exception => e
