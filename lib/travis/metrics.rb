@@ -23,13 +23,9 @@ module Travis
       def start(config, logger)
         adapter   = config[:reporter]
         config    = config[adapter.to_sym] || {}
-        const     = Reporter.const_get(adapter.capitalize)
-        @reporter = const.new(config, logger).setup
-        reporter.start if reporter
-      end
-
-      def started?
-        !!reporter
+        const     = Reporter.const_get(adapter.capitalize) rescue nil
+        @reporter = const && const.new(config, logger)
+        reporter.setup if reporter
       end
     end
 
