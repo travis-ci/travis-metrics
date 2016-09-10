@@ -5,12 +5,12 @@ require 'travis/metrics/reporter/graphite'
 module Travis
   class Metrics
     class << self
-      attr_reader :reporter
-
       MSGS = {
         no_reporter: 'No metrics reporter configured.',
         error:       '"Exception while starting metrics reporter: %s"'
       }
+
+      attr_reader :reporter
 
       def setup(config, logger)
         config[:reporter] ? start(config, logger) : logger.info(MSGS[:no_reporter])
@@ -22,8 +22,9 @@ module Travis
       def start(config, logger)
         adapter   = config[:reporter]
         config    = config[adapter.to_sym] || {}
-        @reporter = Reporter.send(adapter, config, logger)
-        reporter.start
+        const     = Reporter.const_get(adapter.capitalize)
+        @reporter = const.new(config, logger).setup
+        reporter.start if reporter
       end
 
       def started?
