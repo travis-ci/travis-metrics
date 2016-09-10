@@ -17,7 +17,7 @@ describe Travis::Metrics::Reporter::Riemann do
     #end
 
     describe 'returns a riemann reporter' do
-      it { expect(subject).to be_kind_of(Metriks::Reporter::Riemann) }
+      xit { expect(subject).to be_kind_of(Metriks::Reporter::Riemann) }
       #it { expect(log).to include "Using Graphite metrics reporter (host: #{host}, port: 1234)" }
     end
 
