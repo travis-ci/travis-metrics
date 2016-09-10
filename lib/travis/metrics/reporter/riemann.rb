@@ -1,10 +1,12 @@
-require 'metriks/reporter/riemann'
+begin
+  require 'metriks/reporter/riemann'
+rescue LoadError
+end
 
 module Travis
   class Metrics
     module Reporter
       class Riemann < Struct.new(:config)
-        require 'riemann/client'
         #MSGS = {
           #setup: 'Using Librato metrics reporter (source: %s, account: %s)',
           #error: 'Librato error: %s (%s)'
