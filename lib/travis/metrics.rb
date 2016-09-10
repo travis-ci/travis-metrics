@@ -1,6 +1,7 @@
 require 'metriks'
 require 'travis/metrics/reporter/librato'
 require 'travis/metrics/reporter/graphite'
+require 'travis/metrics/reporter/riemann'
 
 module Travis
   class Metrics
