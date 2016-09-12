@@ -12,7 +12,9 @@ module Travis
         def setup
           return unless host
           logger.info MSGS[:setup] % [host, port]
-          Metriks::Reporter::Graphite.new(host, port, interval: interval, on_error: method(:on_error))
+          reporter = Metriks::Reporter::Graphite.new(host, port, interval: interval, on_error: method(:on_error))
+          reporter.start
+          reporter
         end
 
         private

@@ -1,5 +1,5 @@
 describe Travis::Metrics do
-  let(:metrics) { described_class.new }
+  let(:metrics) { described_class.new(double('reporter')) }
   let(:key)     { :foo }
   let(:obj)     { double }
 
