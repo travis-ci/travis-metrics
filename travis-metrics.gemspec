@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage      = 'https://github.com/travis-ci/travis-instrumentation'
   s.summary       = 'Instrumentation for Travis CI'
   s.description   = "#{s.summary}."
+  s.licenses      = ['MIT']
 
   s.files         = Dir['{lib/**/*,spec/**/*,[A-Z]*}']
   s.platform      = Gem::Platform::RUBY
