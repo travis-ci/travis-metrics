@@ -9,12 +9,13 @@ module Travis
           error: 'Graphite error: %s (%s)'
         }
 
+        attr_reader :reporter
+
         def setup
           return unless host
           logger.info MSGS[:setup] % [host, port]
-          reporter = Metriks::Reporter::Graphite.new(host, port, interval: interval, on_error: method(:on_error))
+          @reporter = Metriks::Reporter::Graphite.new(host, port, interval: interval, on_error: method(:on_error))
           reporter.start
-          reporter
         end
 
         private

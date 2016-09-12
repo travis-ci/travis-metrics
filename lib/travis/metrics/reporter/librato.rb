@@ -9,12 +9,13 @@ module Travis
           error: 'Librato error: %s (%s)'
         }
 
+        attr_reader :reporter
+
         def setup
           return unless email && token
           logger.info MSGS[:setup] % [source, email]
-          reporter = Metriks::LibratoMetricsReporter.new(email, token, source: source, on_error: method(:on_error))
+          @reporter = Metriks::LibratoMetricsReporter.new(email, token, source: source, on_error: method(:on_error))
           reporter.start
-          reporter
         end
 
         private

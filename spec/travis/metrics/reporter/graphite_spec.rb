@@ -15,8 +15,11 @@ describe Travis::Metrics::Reporter::Graphite do
       it { expect(subject).to be_nil }
     end
 
-    describe 'returns a graphite reporter' do
-      it { expect(subject).to be_kind_of(Metriks::Reporter::Graphite) }
+    describe 'starts a graphite reporter' do
+      let(:metriks) { double('metriks', start: nil) }
+      before { allow(Metriks::Reporter::Graphite).to receive(:new).and_return(metriks) }
+      before { reporter.setup }
+      it { expect(metriks).to have_received(:start) }
       it { expect(log).to include "Using Graphite metrics reporter (host: #{host}, port: 1234)" }
     end
 
@@ -26,9 +29,10 @@ describe Travis::Metrics::Reporter::Graphite do
       before { allow_any_instance_of(Metriks::Reporter::Graphite).to receive(:write).and_raise(error) }
 
       before do
-        subject.start
+        reporter.setup
+        reporter.reporter.start
         sleep 0.1 # ugh.
-        subject.stop
+        reporter.reporter.stop
       end
 
       it { expect(stdout.string).to include 'Graphite error: message (body)' }
