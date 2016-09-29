@@ -29,9 +29,7 @@ module Travis
           end
 
           def source
-            source = config[:source]
-            source = "#{source}.#{dyno}" if dyno
-            source
+            [config[:source], dyno].compact.join('.')
           end
 
           def dyno
