@@ -24,8 +24,7 @@ module Travis
         config   = config[adapter.to_sym] || {}
         const    = Reporter.const_get(adapter.capitalize) rescue nil
         reporter = const && const.new(config, logger)
-        reporter.setup if reporter
-        reporter
+        reporter.setup && reporter if reporter
       end
     end
 
