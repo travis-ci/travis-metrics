@@ -42,12 +42,12 @@ module Travis
       Metriks.meter(key).mark if reporter
     end
 
-    def time(key, &block)
-      Metriks.timer(key).time(&block) if reporter
-    end
-
     def gauge(key, value)
       Metriks.gauge(key).set(value) if reporter
+    end
+
+    def time(key, &block)
+      reporter ? Metriks.timer(key).time(&block) : yield
     end
   end
 end
