@@ -12,14 +12,15 @@ module Travis
       }
 
       def setup(config, logger)
-        reporter = config[:reporter] ? start(config, logger) : logger.info(MSGS[:no_reporter])
+        reporter = start(config, logger)
+        logger.info(MSGS[:no_reporter]) unless reporter
         new(reporter)
       rescue Exception => e
         logger.error [e.message, e.backtrace].join("\n")
       end
 
       def start(config, logger)
-        adapter  = config[:reporter]
+        return unless adapter = config[:reporter]
         config   = config[adapter.to_sym] || {}
         const    = Reporter.const_get(adapter.capitalize) rescue nil
         reporter = const && const.new(config, logger)
