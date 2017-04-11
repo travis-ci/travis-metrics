@@ -13,7 +13,7 @@ module Travis
 
       def setup(config, logger)
         reporter = start(config, logger)
-        logger.info(MSGS[:no_reporter]) unless reporter
+        logger.debug(MSGS[:no_reporter]) unless reporter
         new(reporter)
       rescue Exception => e
         logger.error [e.message, e.backtrace].join("\n")
