@@ -13,7 +13,7 @@ module Travis
           source = config[:source]
           source = "#{source}.#{ENV['DYNO']}" if ENV.key?('DYNO')
           on_error = proc {|ex| puts "librato error: #{ex.message} (#{ex.response.body})"}
-          puts "Using Librato metrics reporter (source: #{source}, account: #{email})"
+          logger.info "Using Librato metrics reporter (source: #{source}, account: #{email})"
           Metriks::LibratoMetricsReporter.new(email, token, source: source, on_error: on_error)
         end
 
@@ -21,7 +21,7 @@ module Travis
           require 'metriks/reporter/graphite'
           host, port = *config.values_at(:host, :port)
           return unless host
-          puts "Using Graphite metrics reporter (host: #{host}, port: #{port})"
+          logger.info "Using Graphite metrics reporter (host: #{host}, port: #{port})"
           Metriks::Reporter::Graphite.new(host, port)
         end
       end
@@ -37,7 +37,7 @@ module Travis
           config = config[adapter.to_sym] || {}
           @reporter = Reporter.send(adapter, config, logger)
         end
-        reporter ? reporter.start : logger.info('No metrics reporter configured.')
+        reporter ? reporter.start : logger.debug('No metrics reporter configured.')
         self
       rescue Exception => e
         puts "Exception while starting metrics reporter: #{e.message}", e.backtrace
