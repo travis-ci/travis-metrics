@@ -14,7 +14,12 @@ module Travis
         def setup
           return unless email && token
           logger.info MSGS[:setup] % [source, email]
-          @reporter = Metriks::LibratoMetricsReporter.new(email, token, source: source, on_error: method(:on_error))
+          @reporter = Metriks::LibratoMetricsReporter.new(email, token,
+            source: source,
+            on_error: method(:on_error),
+            percentiles: [0.95, 0.99, 0.999, 1.0],
+            interval: config[:interval],
+          )
           reporter.start
         end
 
