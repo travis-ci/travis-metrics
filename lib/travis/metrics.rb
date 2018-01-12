@@ -14,7 +14,12 @@ module Travis
           source = "#{source}.#{ENV['DYNO']}" if ENV.key?('DYNO')
           on_error = proc {|ex| puts "librato error: #{ex.message} (#{ex.response.body})"}
           puts "Using Librato metrics reporter (source: #{source}, account: #{email})"
-          Metriks::LibratoMetricsReporter.new(email, token, source: source, on_error: on_error)
+          Metriks::LibratoMetricsReporter.new(email, token,
+            source: source,
+            on_error: on_error,
+            percentiles: [0.95, 0.99, 0.999, 1.0],
+            interval: config[:interval],
+          )
         end
 
         def graphite(config, logger)
