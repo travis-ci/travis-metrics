@@ -12,6 +12,8 @@ module Travis
       }
 
       def setup(config, logger)
+        Metriks.enable_hdrhistogram
+
         reporter = start(config, logger)
         logger.debug(MSGS[:no_reporter]) unless reporter
         new(reporter)
