@@ -35,19 +35,19 @@ module Travis
     end
 
     def count(key)
-      Metriks.counter(key).increment if reporter
+      Metriks.counter(key).increment
     end
 
     def meter(key)
-      Metriks.meter(key).mark if reporter
+      Metriks.meter(key).mark
     end
 
     def gauge(key, value)
-      Metriks.gauge(key).set(value) if reporter
+      Metriks.gauge(key).set(value)
     end
 
     def time(key, &block)
-      reporter ? Metriks.timer(key).time(&block) : yield
+      Metriks.timer(key).time(&block)
     end
   end
 end
