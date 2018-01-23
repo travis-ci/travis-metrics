@@ -12,6 +12,9 @@ module Travis
       }
 
       def setup(config, logger)
+        unless Metriks.respond_to?(:enable_hdrhistogram)
+          raise 'Please ensure that you are using the travis-ci fork of the metriks gem at https://github.com/travis-ci/metriks'
+        end
         Metriks.enable_hdrhistogram
 
         reporter = start(config, logger)
