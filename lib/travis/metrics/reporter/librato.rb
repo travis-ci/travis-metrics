@@ -34,7 +34,7 @@ module Travis
           end
 
           def source
-            [config[:source], dyno].compact.join('.')
+            [config[:source] || ENV['HEROKU_APP_NAME'], dyno].compact.join('.')
           end
 
           def dyno
