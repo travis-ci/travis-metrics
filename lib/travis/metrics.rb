@@ -39,12 +39,12 @@ module Travis
       @reporter = reporter
     end
 
-    def count(key)
-      Metriks.counter(key).increment
+    def count(key, value = 1)
+      Metriks.counter(key, value).increment
     end
 
-    def meter(key)
-      Metriks.meter(key).mark
+    def meter(key, value = 1)
+      Metriks.meter(key).mark(value)
     end
 
     def gauge(key, value)
