@@ -4,9 +4,8 @@ describe Travis::Metrics do
   let(:obj)     { double }
 
   describe 'count' do
-
     it 'increments a counter' do
-      expect(Metriks).to receive(:counter).with(key).and_return(obj)
+      expect(Metriks).to receive(:counter).with(key, 1).and_return(obj)
       expect(obj).to receive(:increment)
       metrics.count(key)
     end
@@ -15,7 +14,7 @@ describe Travis::Metrics do
   describe 'meter' do
     it 'meters an instrument' do
       expect(Metriks).to receive(:meter).with(key).and_return(obj)
-      expect(obj).to receive(:mark)
+      expect(obj).to receive(:mark).with(1)
       metrics.meter(key)
     end
   end
