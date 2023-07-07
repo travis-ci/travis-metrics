@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'metriks'
 require 'travis/metrics/reporter/librato'
 require 'travis/metrics/reporter/graphite'
@@ -8,13 +10,14 @@ module Travis
     class << self
       MSGS = {
         no_reporter: 'No metrics reporter configured.',
-        error:       '"Exception while starting metrics reporter: %s"'
-      }
+        error: '"Exception while starting metrics reporter: %s"'
+      }.freeze
 
       def setup(config, logger)
         unless Metriks.respond_to?(:enable_hdrhistogram)
           raise 'Please ensure that you are using the travis-ci fork of the metriks gem at https://github.com/travis-ci/metriks'
         end
+
         Metriks.enable_hdrhistogram
 
         reporter = start(config, logger)
@@ -25,10 +28,15 @@ module Travis
       end
 
       def start(config, logger)
-        return unless adapter = config[:reporter]
+        return unless (adapter = config[:reporter])
+
         config   = config[adapter.to_sym] || {}
-        const    = Reporter.const_get(adapter.capitalize) rescue nil
-        reporter = const && const.new(config, logger)
+        const    = begin
+          Reporter.const_get(adapter.capitalize)
+        rescue StandardError
+          nil
+        end
+        reporter = const&.new(config, logger)
         reporter.setup && reporter if reporter
       end
     end
@@ -51,8 +59,8 @@ module Travis
       Metriks.gauge(key).set(value)
     end
 
-    def time(key, &block)
-      Metriks.timer(key).time(&block)
+    def time(key, &)
+      Metriks.timer(key).time(&)
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Travis
   class Metrics
     VERSION = '2.0.0'
