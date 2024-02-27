@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 begin
   require 'metriks/reporter/riemann'
 rescue LoadError
@@ -7,40 +9,40 @@ module Travis
   class Metrics
     module Reporter
       class Riemann < Struct.new(:config)
-        #MSGS = {
-          #setup: 'Using Librato metrics reporter (source: %s, account: %s)',
-          #error: 'Librato error: %s (%s)'
-        #}
+        # MSGS = {
+        # setup: 'Using Librato metrics reporter (source: %s, account: %s)',
+        # error: 'Librato error: %s (%s)'
+        # }
 
         def setup
-          #return unless host
-          #logger.info MSGS[:setup] % [source, email]
+          # return unless host
+          # logger.info MSGS[:setup] % [source, email]
           Metriks::Reporter::Riemann.new(client, interval: interval)
         end
 
         private
 
-          def client
-            ::Riemann::Client.new(host,port)
-          end
+        def client
+          ::Riemann::Client.new(host, port)
+        end
 
-          def host
-            "host"
-            #config[:host]
-          end
+        def host
+          'host'
+          # config[:host]
+        end
 
-          def port
-            "port"
-            #config[:port]
-          end
+        def port
+          'port'
+          # config[:port]
+        end
 
-          def interval
-            config[:interval]
-          end
+        def interval
+          config[:interval]
+        end
 
-          #def on_error(e)
-            #logger.error MSGS[:error] % [e.message, e.response.body]
-          #end
+        # def on_error(e)
+        # logger.error MSGS[:error] % [e.message, e.response.body]
+        # end
       end
     end
   end

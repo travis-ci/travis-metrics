@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Travis::Metrics do
   let(:metrics) { described_class.new(double('reporter')) }
   let(:key)     { :foo }
